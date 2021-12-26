@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
+import * as theme from './theme';
+
 import { Article } from './components/Article';
 import { ArticlesList } from './components/ArticlesList';
 
@@ -42,12 +45,14 @@ function App() {
   }, []);
 
   return (
-    <ArticlesList>
-      {newsList.length > 0 &&
-        newsList.map((newsItem, i) => (
-          <Article key={`${newsItem.publishedAt}_${i}`} news={newsItem} />
-        ))}
-    </ArticlesList>
+    <ThemeProvider theme={theme}>
+      <ArticlesList>
+        {newsList.length > 0 &&
+          newsList.map((newsItem, i) => (
+            <Article key={`${newsItem.publishedAt}_${i}`} news={newsItem} />
+          ))}
+      </ArticlesList>
+    </ThemeProvider>
   );
 }
 
