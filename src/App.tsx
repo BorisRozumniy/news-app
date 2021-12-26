@@ -4,6 +4,8 @@ import * as theme from './theme';
 
 import { Article } from './components/Article';
 import { ArticlesList } from './components/ArticlesList';
+import { Button } from './components/Button';
+import { Header } from './components/Header';
 
 const api =
   'https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedAt&apiKey=792e66b37a6c47cea817424a68757032';
@@ -46,6 +48,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Header>
+        <Button handler={() => console.log('call')}>Load next</Button>
+      </Header>
       <ArticlesList>
         {newsList.length > 0 &&
           newsList.map((newsItem, i) => (
