@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Article } from './components/Article';
+import { ArticlesList } from './components/ArticlesList';
 
 const api =
   'https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedAt&apiKey=792e66b37a6c47cea817424a68757032';
@@ -9,7 +11,7 @@ type response = {
   totalResults: number;
 };
 
-type news = {
+export type news = {
   author: string;
   content: string;
   description: string;
@@ -40,20 +42,12 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <ArticlesList>
       {newsList.length > 0 &&
-        newsList.map((newsItem) => (
-          <li key={newsItem.publishedAt}>
-            <h2>{newsItem.title}</h2>
-            <p>published {newsItem.publishedAt}</p>
-            <h3>author: {newsItem.author}</h3>
-            <p>description {newsItem.description}</p>
-            <p>{newsItem.content}</p>
-            <img src={newsItem.urlToImage} alt={newsItem.title} />
-            <a href={newsItem.url}>source</a>
-          </li>
+        newsList.map((newsItem, i) => (
+          <Article key={`${newsItem.publishedAt}_${i}`} news={newsItem} />
         ))}
-    </div>
+    </ArticlesList>
   );
 }
 
