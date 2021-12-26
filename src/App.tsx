@@ -11,8 +11,8 @@ const PAGE_NUMBER_FOR_REPLACEMENT = 'PAGE_NUMBER_FOR_REPLACEMENT';
 
 const api = {
   firstPage:
-    'https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedA',
-  next: `https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedA&page=${PAGE_NUMBER_FOR_REPLACEMENT}`,
+    'https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&pageSize=10',
+  next: `https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&pageSize=10&page=${PAGE_NUMBER_FOR_REPLACEMENT}`,
 };
 
 const config = {
@@ -60,9 +60,6 @@ function App() {
 
   const getNextPage = () => {
     setCurrentPage(currentPage + 1);
-    console.log(
-      api.next.replace('PAGE_NUMBER_FOR_REPLACEMENT', String(currentPage)),
-    );
     fetch(
       api.next.replace(PAGE_NUMBER_FOR_REPLACEMENT, String(currentPage)),
       config,
@@ -70,9 +67,9 @@ function App() {
       .then((res) => res.json())
       .then(
         (result: response) => {
-          console.log(2, result);
+          console.log(2, [...newsList, ...result.articles]);
           // setIsLoaded(true);
-          setNewsList(result.articles);
+          setNewsList([...newsList, ...result.articles]);
         },
         (error) => {
           console.log(3, error);
