@@ -1,6 +1,6 @@
 import React from 'react';
+import { news } from '../../types';
 import { ArticleContainer, Content, Img, P, Title } from './Article.styles';
-import { news } from '../../App';
 
 type Props = {
   news: news;
