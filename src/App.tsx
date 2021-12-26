@@ -7,8 +7,19 @@ import { ArticlesList } from './components/ArticlesList';
 import { Button } from './components/Button';
 import { Header } from './components/Header';
 
-const api =
-  'https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedAt&apiKey=792e66b37a6c47cea817424a68757032';
+const PAGE_NUMBER_FOR_REPLACEMENT = 'PAGE_NUMBER_FOR_REPLACEMENT';
+
+const api = {
+  firstPage:
+    'https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedA',
+  next: `https://newsapi.org/v2/everything?q=tesla&from=2021-11-26&sortBy=publishedA&page=${PAGE_NUMBER_FOR_REPLACEMENT}`,
+};
+
+const config = {
+  headers: {
+    'X-Api-Key': '792e66b37a6c47cea817424a68757032',
+  },
+};
 
 type response = {
   articles: news[];
@@ -28,9 +39,10 @@ export type news = {
 };
 
 function App() {
+  const [currentPage, setCurrentPage] = useState(1);
   const [newsList, setNewsList] = useState([] as news[]);
   useEffect(() => {
-    fetch(api)
+    fetch(api.firstPage, config)
       .then((res) => res.json())
       .then(
         (result: response) => {
@@ -46,10 +58,34 @@ function App() {
       );
   }, []);
 
+  const getNextPage = () => {
+    setCurrentPage(currentPage + 1);
+    console.log(
+      api.next.replace('PAGE_NUMBER_FOR_REPLACEMENT', String(currentPage)),
+    );
+    fetch(
+      api.next.replace(PAGE_NUMBER_FOR_REPLACEMENT, String(currentPage)),
+      config,
+    )
+      .then((res) => res.json())
+      .then(
+        (result: response) => {
+          console.log(2, result);
+          // setIsLoaded(true);
+          setNewsList(result.articles);
+        },
+        (error) => {
+          console.log(3, error);
+          // setIsLoaded(true);
+          // setError(error);
+        },
+      );
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Header>
-        <Button handler={() => console.log('call')}>Load next</Button>
+        <Button handler={getNextPage}>Load next</Button>
       </Header>
       <ArticlesList>
         {newsList.length > 0 &&
