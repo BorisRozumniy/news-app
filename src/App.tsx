@@ -3,10 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import * as theme from './theme';
 import { request } from './request';
 import { news } from './types';
-import { Article } from './components/Article';
-import { ArticlesList } from './components/ArticlesList';
-import { Button } from './components/Button';
-import { Header } from './components/Header';
+import { Article, ArticlesList, Button, Header } from './components';
 import { api, PAGE_NUMBER_FOR_REPLACEMENT } from './api';
 
 export const App = () => {
