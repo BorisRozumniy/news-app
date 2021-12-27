@@ -5,6 +5,7 @@ import { request } from './request';
 import { news } from './types';
 import { Article, ArticlesList, Button, Header } from './components';
 import { api, PAGE_NUMBER_FOR_REPLACEMENT } from './api';
+import { Error } from './components/Error';
 
 export const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +28,7 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      {error && <Error message={error} onClose={() => setError('')} />}
       <Header>
         <Button handler={getNextPage}>Load next</Button>
       </Header>
@@ -36,7 +38,6 @@ export const App = () => {
             <Article key={`${newsItem.publishedAt}_${i}`} news={newsItem} />
           ))}
       </ArticlesList>
-      {error && <h3>{error}</h3>}
     </ThemeProvider>
   );
 };
