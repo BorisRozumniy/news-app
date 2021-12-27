@@ -17,6 +17,7 @@ export const App = () => {
   }, []);
 
   const getNextPage = () => {
+    window.scrollTo(0, document.body.scrollHeight);
     setCurrentPage(currentPage + 1);
     request(
       api.next.replace(PAGE_NUMBER_FOR_REPLACEMENT, String(currentPage)),
